@@ -1,7 +1,7 @@
-import {browser, by, element, Key} from 'protractor';
+import {browser, by, element, promise, Key} from 'protractor';
 
 export class TodoPage {
-  navigateTo() {
+  navigateTo(): promise.Promise<any> {
     return browser.get('/todos');
   }
 
@@ -55,4 +55,35 @@ export class TodoPage {
     input.click();
     input.sendKeys(name);
   }
+
+  elementExistsWithId(idOfElement: string): promise.Promise<boolean> {
+    if (element(by.id(idOfElement)).isPresent()) {
+      this.highlightElement(by.id(idOfElement));
+    }
+    return element(by.id(idOfElement)).isPresent();
+  }
+
+  elementExistsWithCss(cssOfElement: string): promise.Promise<boolean> {
+    return element(by.css(cssOfElement)).isPresent();
+  }
+
+  click(idOfButton: string): promise.Promise<void> {
+    this.highlightElement(by.id(idOfButton));
+    return element(by.id(idOfButton)).click();
+  }
+
+ /* field(idOfField: string) {
+    return element(by.id(idOfField));
+  }
+
+
+  button(idOfButton: string) {
+    this.highlightElement(by.id(idOfButton));
+    return element(by.id(idOfButton));
+  }
+
+  getTextFromField(idOfField: string) {
+    this.highlightElement(by.id(idOfField));
+    return element(by.id(idOfField)).getText();
+  } */
 }

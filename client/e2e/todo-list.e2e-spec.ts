@@ -72,4 +72,18 @@ describe('Todo list', () => {
 
     expect(page.getUniqueTodo("false")).toEqual("Workman");
   });
+
+  it('Should have an add todo button', () => {
+    page.navigateTo();
+    expect(page.elementExistsWithId('addNewTodo')).toBeTruthy();
+  });
+
+  it('Should open a dialog box when add todo button is clicked', () => {
+    page.navigateTo();
+    expect(page.elementExistsWithCss('add-todo')).toBeFalsy('There should not be a modal window yet');
+    page.click('addNewTodo');
+    expect(page.elementExistsWithCss('add-todo')).toBeTruthy('There should be a modal window now');
+  });
+
+
 });
