@@ -112,13 +112,13 @@ public class TodoControllerSpec {
     String jsonResult = todoController.getTodo(argMap);
     BsonArray docs = parseJsonArray(jsonResult);
 
-    assertEquals("Should be 2 todos", 2, docs.size());
+    assertEquals("Should be 2 todos", 4, docs.size());
     List<String> names = docs
       .stream()
       .map(TodoControllerSpec::getOwner)
       .sorted()
       .collect(Collectors.toList());
-    List<String> expectedOwners = Arrays.asList("Barry", "Dawn");
+    List<String> expectedOwners = Arrays.asList("Barry", "Dawn", "Fry", "Roberta");
     assertEquals("Owners should match", expectedOwners, names);
   }
 
