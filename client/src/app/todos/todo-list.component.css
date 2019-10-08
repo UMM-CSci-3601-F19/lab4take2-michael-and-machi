@@ -6,9 +6,29 @@
 #title input {
   width: 16%;
   min-width: 100px;
+
 }
 
 #list-title {
   padding-right: 14px;
 }
 
+#todo-list-title {
+  font-family: Chalkduster, fantasy;
+  color: white;
+  margin-left: 20px;
+  font-size: 30px;
+
+}
+
+.mat-card {
+  background: -webkit-linear-gradient(blue, aquamarine);
+}
+
+.header {
+  background: black;
+}
+
+.container {
+  color: white;
+}

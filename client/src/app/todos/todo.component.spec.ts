@@ -1,3 +1,4 @@
+
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Todo} from './todo';
 import {TodoComponent} from './todo.component';
@@ -34,7 +35,7 @@ describe('Todo component', () => {
         },
         {
           id: "58895985ae3b752b124e7663",
-          owner: "Fry",
+          owner: "Barry",
           status: true,
           body: "Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.",
           category: "homework"
@@ -55,16 +56,15 @@ describe('Todo component', () => {
     });
   }));
 
-  it('can retrieve Pat by ID', () => {
-    TodoComponent.setId('pat_id');
+  it('can retrieve Barry by ID', () => {
+    todoComponent.setId('58895985ae3b752b124e7663');
     expect(todoComponent.todo).toBeDefined();
-    expect(todoComponent.todo.name).toBe('Pat');
-    expect(todoComponent.todo.email).toBe('pat@something.com');
+    expect(todoComponent.todo.owner).toBe('Barry');
+    expect(todoComponent.todo.category).toBe('homework');
   });
 
   it('returns undefined for Santa', () => {
     todoComponent.setId('Santa');
     expect(todoComponent.todo).not.toBeDefined();
   });
-
 });

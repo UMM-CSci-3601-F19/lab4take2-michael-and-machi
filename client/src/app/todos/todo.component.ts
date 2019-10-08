@@ -1,3 +1,4 @@
+
 import {Component, OnInit} from '@angular/core';
 import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
@@ -12,7 +13,7 @@ export class TodoComponent implements OnInit {
   private id: string;
 
   constructor(private todoListService: TodoListService) {
-    // this.todos = this.userListService.getTodos();
+    // this.todos = this.todoListService.getTodos();
   }
 
   private subscribeToServiceForId() {

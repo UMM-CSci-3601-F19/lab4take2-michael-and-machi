@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatDialogRef, MAT_DIALOG_DATA, MATERIAL_COMPATIBILITY_MODE} from "@angular/material";
 
 import {AddTodoComponent} from './add-todo.component';
-import {CutsomModule} from '../custom.module';
+import {CustomModule} from '../custom.module';
 import {By} from "@angular/platform-browser";
 import {NgForm} from "@angular/forms";
 
@@ -23,7 +23,7 @@ describe('Add Todo component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CutsomModule],
+      imports: [CustomModule],
       declarations: [AddTodoComponent],
       providers: [
         {provide: MatDialogRef, useValue: mockMatDialogRef},

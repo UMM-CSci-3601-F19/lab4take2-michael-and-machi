@@ -90,20 +90,34 @@ describe('Todo list service: ', () => {
 
   it('filterTodos() filters by Owner', () => {
     expect(testTodos.length).toBe(3);
-    let todoOwner = 'a';
-    expect(todoListService.filterTodos(testTodos, todoOwner).length).toBe(2);
+    let todoOwner = 'F';
+    expect(todoListService.filterTodos(testTodos, todoOwner).length).toBe(1);
   });
 
   it('filterTodos() filters by Status', () => {
     expect(testTodos.length).toBe(3);
-    let todoStatus = 37;
+    let todoStatus = 'incomplete';
     expect(todoListService.filterTodos(testTodos, null, todoStatus).length).toBe(2);
+  });
+
+  it('filterTodos() filters by Body', () => {
+    expect(testTodos.length).toBe(3);
+    let todoBody = 'Incididunt';
+    expect(todoListService.filterTodos(testTodos, null, null, todoBody).length).toBe(3);
   });
 
   it('filterTodos() filters by Owner and Status', () => {
     expect(testTodos.length).toBe(3);
-    let todoStatus = 37;
-    let todoOwner = 'i';
+    let todoStatus = 'complete';
+    let todoOwner = 'Blanche';
     expect(todoListService.filterTodos(testTodos, todoOwner, todoStatus).length).toBe(1);
+  });
+
+  it('filterTodos() filters by Owner, Status, and Body', () => {
+    expect(testTodos.length).toBe(3);
+    let todoBody = 'Incididunt'
+    let todoStatus = 'complete';
+    let todoOwner = 'Blanche';
+    expect(todoListService.filterTodos(testTodos, todoOwner, todoStatus, todoBody).length).toBe(1);
   });
 })
