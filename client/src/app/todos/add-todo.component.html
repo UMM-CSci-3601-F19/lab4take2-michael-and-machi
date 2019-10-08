@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div *ngIf="addTodoForm" class="add-todo">
+  <ul>
+    <li>Owner: {{ addTodoForm.owner }}</li>
+    <li>Status: {{ addTodoForm.status }}</li>
+    <li>Body: {{addTodoForm.body}}</li>
+    <li>Category: {{ addTodoForm.category }}</li>
+  </ul>
+</div>
