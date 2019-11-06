@@ -9,25 +9,25 @@ describe('Todo list service: ', () => {
 // A small collection of test users
   const testTodos: Todo[] = [
     {
-      id: "58895985c1849992336c219b",
-      owner: "Fry",
+      _id: '58af3a600343927e48e8720f',
+      owner: 'Blanche',
       status: false,
-      body: "Ipsum esse est ullamco magna tempor anim laborum non officia deserunt veniam commodo. Aute minim incididunt ex commodo.",
-      category: "video games"
+      body: 'Nostrud ullamco labore exercitation magna. Excepteur aute aliqua veniam veniam nisi eu occaecat ea magna do.',
+      category: 'video games'
     },
     {
-      id: "58895985186754887e0381f5",
-      owner: "Blanche",
+      _id: '58af3a600343927e48e87211',
+      owner: 'Fry',
       status: true,
-      body: "Incididunt enim ea sit qui esse magna eu. Nisi sunt exercitation est Lorem consectetur incididunt cupidatat laboris commodo veniam do ut sint.",
-      category: "software design"
+      body: 'Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.',
+      category: 'software design'
     },
     {
-      id: "58895985c32328e015584db2",
-      owner: "Workman",
-      status: false,
-      body: "Proident cupidatat exercitation id ullamco magna do qui aliquip id. Eiusmod labore non nostrud culpa duis incididunt incididunt esse occaecat amet officia.",
-      category: "homework"
+      _id: '58af3a600343927e48e87216',
+      owner: 'Blanche',
+      status: true,
+      body: 'Nostrud ullamco labore exercitation magna. Excepteur aute aliqua veniam veniam nisi eu occaecat ea magna do.',
+      category: 'homework'
     }
   ];
   let todoListService: TodoListService;
@@ -77,7 +77,7 @@ describe('Todo list service: ', () => {
 
   it('getTodoById() calls api/todos/id', () => {
     const targetTodo: Todo = testTodos[1];
-    const targetId: string = targetTodo.id;
+    const targetId: string = targetTodo._id;
     todoListService.getTodoById(targetId).subscribe(
       todo => expect(todo).toBe(targetTodo)
     );
@@ -90,34 +90,39 @@ describe('Todo list service: ', () => {
 
   it('filterTodos() filters by Owner', () => {
     expect(testTodos.length).toBe(3);
-    let todoOwner = 'F';
+    const todoOwner = 'F';
+    // @ts-ignore
     expect(todoListService.filterTodos(testTodos, todoOwner).length).toBe(1);
   });
 
   it('filterTodos() filters by Status', () => {
     expect(testTodos.length).toBe(3);
-    let todoStatus = 'incomplete';
+    const todoStatus = 'incomplete';
+    // @ts-ignore
     expect(todoListService.filterTodos(testTodos, null, todoStatus).length).toBe(2);
   });
 
   it('filterTodos() filters by Body', () => {
     expect(testTodos.length).toBe(3);
-    let todoBody = 'Incididunt';
+    const todoBody = 'Incididunt';
+    // @ts-ignore
     expect(todoListService.filterTodos(testTodos, null, null, todoBody).length).toBe(3);
   });
 
   it('filterTodos() filters by Owner and Status', () => {
     expect(testTodos.length).toBe(3);
-    let todoStatus = 'complete';
-    let todoOwner = 'Blanche';
+    const todoStatus = 'complete';
+    const todoOwner = 'Blanche';
+    // @ts-ignore
     expect(todoListService.filterTodos(testTodos, todoOwner, todoStatus).length).toBe(1);
   });
 
   it('filterTodos() filters by Owner, Status, and Body', () => {
     expect(testTodos.length).toBe(3);
-    let todoBody = 'Incididunt'
-    let todoStatus = 'complete';
-    let todoOwner = 'Blanche';
+    const todoBody = 'Incididunt'
+    const todoStatus = 'complete';
+    const todoOwner = 'Blanche';
+    // @ts-ignore
     expect(todoListService.filterTodos(testTodos, todoOwner, todoStatus, todoBody).length).toBe(1);
   });
 })

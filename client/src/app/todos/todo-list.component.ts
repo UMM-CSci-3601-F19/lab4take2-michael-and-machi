@@ -12,21 +12,17 @@ import {AddTodoComponent} from './add-todo.component';
 })
 
 export class TodoListComponent implements OnInit {
-  // These are public so that tests can reference them (.spec.ts)
+
   public todos: Todo[];
   public filteredTodos: Todo[];
 
-  // These are the target values used in searching.
-  // We should rename them to make that clearer.
   public todoOwner: string;
   public todoStatus: boolean;
   public todoCategory: string;
   public todoBody: string;
 
-  // The ID of the
   private highlightedID = '';
 
-  // Inject the TodoListService into this component.
   constructor(public todoListService: TodoListService, public dialog: MatDialog) {
 
   }
@@ -105,14 +101,10 @@ export class TodoListComponent implements OnInit {
    *
    */
   refreshTodos(): Observable<Todo[]> {
-    // Get Todos returns an Observable, basically a "promise" that
-    // we will get the data from the server.
-    //
-    // Subscribe waits until the data is fully downloaded, then
-    // performs an action on it (the first lambda)
 
     const todos: Observable<Todo[]> = this.todoListService.getTodos();
     todos.subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
       todos => {
         this.todos = todos;
         this.updateFilter();
