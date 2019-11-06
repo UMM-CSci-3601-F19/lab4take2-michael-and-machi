@@ -5,7 +5,6 @@ import {Todo} from './todo';
 
 @Component({
   selector: 'app-todo-component',
-  styleUrls: ['./todo.component.css'],
   templateUrl: 'todo.component.html'
 })
 export class TodoComponent implements OnInit {
@@ -13,7 +12,6 @@ export class TodoComponent implements OnInit {
   private id: string;
 
   constructor(private todoListService: TodoListService) {
-    // this.todos = this.todoListService.getTodos();
   }
 
   private subscribeToServiceForId() {

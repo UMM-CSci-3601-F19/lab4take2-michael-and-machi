@@ -1,20 +1,20 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {FormControl, Validators, FormGroup, FormBuilder} from "@angular/forms";
+import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 
 import {Todo} from './todo';
-import {OwnerValidator} from "./owner.validator";
-import {validate} from "codelyzer/walkerFactory/walkerFn";
+import {OwnerValidator} from './owner.validator';
+
 
 @Component({
-  selector: 'add-todo-component',
+  selector: 'app-add-todo-component',
   templateUrl: 'add-todo.component.html'
 })
 export class AddTodoComponent implements OnInit {
   addTodoForm: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { todo: Todo}, private fb : FormBuilder) {
+    @Inject(MAT_DIALOG_DATA) public data: { todo: Todo}, private fb: FormBuilder) {
 }
 
   add_todo_validation_messages = {
@@ -56,7 +56,7 @@ export class AddTodoComponent implements OnInit {
       category: new FormControl('category', Validators.compose([
         Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?')
       ]))
-    })
+    });
   }
 
   ngOnInit() {
