@@ -1,13 +1,14 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Observable} from 'rxjs';
-import { of } from 'rxjs';
-import {FormsModule} from '@angular/forms';
-
-import {CustomModule} from '../custom.module';
-
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
 import {Todo} from './todo';
 import {TodoListComponent} from './todo-list.component';
 import {TodoListService} from './todo-list.service';
+import {Observable} from 'rxjs/Observable';
+import {FormsModule} from '@angular/forms';
+import {CustomModule} from '../custom.module';
+import {MatDialog} from '@angular/material';
+
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/do';
 
 describe('Todo list', () => {
 
@@ -19,29 +20,29 @@ describe('Todo list', () => {
   };
 
   beforeEach(() => {
-    // stub TodoService for test purposes
+
     todoListServiceStub = {
-      getTodos: () => of([
+      getTodos: () => Observable.of([
         {
-          id: "58895985a22c04e761776d54",
-          owner: "Blanche",
-          status: false,
-          body: "In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.",
-          category: "software design"
-        },
-        {
-          id: "58895985c1849992336c219b",
-          owner: "Fry",
-          status: false,
-          body: "Ipsum esse est ullamco magna tempor anim laborum non officia deserunt veniam commodo. Aute minim incididunt ex commodo.",
-          category: "video games"
-        },
-        {
-          id: "58895985ae3b752b124e7663",
-          owner: "Barry",
+          _id: 'chris_id',
+          owner: 'Chris',
           status: true,
-          body: "Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.",
-          category: "homework"
+          body: 'UMM',
+          category: 'chris@this.that'
+        },
+        {
+          _id: 'pat_id',
+          owner: 'Pat',
+          status: false,
+          body: 'IBM',
+          category: 'pat@something.com'
+        },
+        {
+          _id: 'jamie_id',
+          owner: 'Jamie',
+          status: true,
+          body: 'Frogs, Inc.',
+          category: 'jamie@frogs.com'
         }
       ])
     };
@@ -49,8 +50,7 @@ describe('Todo list', () => {
     TestBed.configureTestingModule({
       imports: [CustomModule],
       declarations: [TodoListComponent],
-      // providers:    [ TodoListService ]  // NO! Don't provide the real service!
-      // Provide a test-double instead
+
       providers: [{provide: TodoListService, useValue: todoListServiceStub}]
     });
   });
@@ -63,25 +63,11 @@ describe('Todo list', () => {
     });
   }));
 
-  it('contains all the todos', () => {
-    expect(todoList.todos.length).toBe(3);
-  });
 
-  it('contains todos \'Blanche\'', () => {
-    expect(todoList.todos.some((todo: Todo) => todo.owner === 'Blanche')).toBe(true);
-  });
 
-  it('contain todos \'Barry\'', () => {
-    expect(todoList.todos.some((todo: Todo) => todo.owner === 'Barry')).toBe(true);
-  });
 
-  it('doesn\'t contain todos \'Santa\'', () => {
-    expect(todoList.todos.some((todo: Todo) => todo.owner === 'Santa')).toBe(false);
-  });
 
-  // it('contains \'magna\' inside of the body', () => {
-  //   expect(todoList.todos.filter((to-do: To-do) => to-do.body === 'magna')).toBe(2);
-  // });
+
 });
 
 describe('Misbehaving Todo List', () => {
@@ -116,7 +102,73 @@ describe('Misbehaving Todo List', () => {
   }));
 
   it('generates an error if we don\'t set up a TodoListService', () => {
-    // Since the observer throws an error, we don't expect todos to be defined.
     expect(todoList.todos).toBeUndefined();
   });
+});
+
+
+describe('Adding a todo', () => {
+  let todoList: TodoListComponent;
+  let fixture: ComponentFixture<TodoListComponent>;
+  const newTodo: Todo = {
+    _id: '',
+    owner: 'Sam',
+    status: false,
+    body: 'Things and stuff',
+    category: 'sam@this.and.that'
+  };
+  const newId = 'sam_id';
+
+  let calledTodo: Todo;
+
+  let todoListServiceStub: {
+    getTodo: () => Observable<Todo[]>,
+    addNewTodo: (newTodo: Todo) => Observable<{ '$oid': string }>
+  };
+  let mockMatDialog: {
+    open: (AddTodoComponent, any) => {
+      afterClosed: () => Observable<Todo>
+    };
+  };
+
+  beforeEach(() => {
+    calledTodo = null;
+    // stub TodoService for test purposes
+    todoListServiceStub = {
+      getTodo: () => Observable.of([]),
+      // tslint:disable-next-line:no-shadowed-variable
+      addNewTodo: (newTodo: Todo) => {
+        calledTodo = newTodo;
+        return Observable.of({
+          '$oid': newId
+        });
+      }
+    };
+    mockMatDialog = {
+      open: () => {
+        return {
+          afterClosed: () => {
+            return Observable.of(newTodo);
+          }
+        };
+      }
+    };
+
+    TestBed.configureTestingModule({
+      imports: [FormsModule, CustomModule],
+      declarations: [TodoListComponent],
+      providers: [
+        {provide: TodoListService, useValue: todoListServiceStub},
+        {provide: MatDialog, useValue: mockMatDialog}]
+    });
+  });
+
+  beforeEach(async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(TodoListComponent);
+      todoList = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+  }));
+
 });
