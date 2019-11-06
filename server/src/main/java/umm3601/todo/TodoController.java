@@ -24,10 +24,10 @@ public class TodoController {
   /**
    * Construct a controller for todos.
    *
-   * @param database the database containing todos data
+   * @param database the database containing todo data
    */
   public TodoController(MongoDatabase database) {
-    todoCollection = database.getCollection("todos");
+    todoCollection = database.getCollection("todo");
   }
 
   /**
@@ -42,7 +42,6 @@ public class TodoController {
     FindIterable<Document> jsonTodos
       = todoCollection
       .find(eq("_id", new ObjectId(id)));
-
     Iterator<Document> iterator = jsonTodos.iterator();
     if (iterator.hasNext()) {
       Document todo = iterator.next();
@@ -63,12 +62,12 @@ public class TodoController {
    * @param queryParams the query parameters from the request
    * @return an array of Todos in a JSON formatted string
    */
-  public String getTodo(Map<String, String[]> queryParams) {
+  public String getTodos(Map<String, String[]> queryParams) {
 
     Document filterDoc = new Document();
 
-    if (queryParams.containsKey("age")) {
-      int targetStatus = Integer.parseInt(queryParams.get("status")[0]);
+    if (queryParams.containsKey("status")) {
+      boolean targetStatus = Boolean.parseBoolean(queryParams.get("status")[0]);
       filterDoc = filterDoc.append("status", targetStatus);
     }
 
@@ -99,20 +98,20 @@ public class TodoController {
 
 
   /**
-   * Helper method which appends received todo information to the to-be added document
+   * Helper method which appends received to-do information to the to-be added document
    *
-   * @param owner the owner of the new todo
-   * @param status the status of the new todo
-   * @param body the body the new todo works for
-   * @param category the category of the new todo
-   * @return boolean after successfully or unsuccessfully adding a todo
+   * @param owner the owner of the new to-do
+   * @param status the status of the new to-do
+   * @param body the body the new to-do works for
+   * @param category the category of the new to-do
+   * @return boolean after successfully or unsuccessfully adding a to-do
    */
-  public String addNewTodo(String owner, int status, String body, String category) {
+  public String addNewTodo(String owner, boolean status, String body, String category) {
 
     Document newTodo = new Document();
-    newTodo.append("name", owner);
-    newTodo.append("age", status);
-    newTodo.append("company", body);
+    newTodo.append("owner", owner);
+    newTodo.append("status", status);
+    newTodo.append("body", body);
     newTodo.append("category", category);
 
     try {

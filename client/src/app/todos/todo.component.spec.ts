@@ -1,10 +1,9 @@
-
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
 import {Todo} from './todo';
 import {TodoComponent} from './todo.component';
 import {TodoListService} from './todo-list.service';
-import {Observable} from 'rxjs';
-import { of } from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {CustomModule} from '../custom.module';
 
 describe('Todo component', () => {
 
@@ -18,32 +17,33 @@ describe('Todo component', () => {
   beforeEach(() => {
     // stub TodoService for test purposes
     todoListServiceStub = {
-      getTodoById: (todoId: string) => of([
+      getTodoById: (todoId: string) => Observable.of([
         {
-          id: "58895985a22c04e761776d54",
-          owner: "Blanche",
-          status: false,
-          body: "In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.",
-          category: "software design"
-        },
-        {
-          id: "58895985c1849992336c219b",
-          owner: "Fry",
-          status: false,
-          body: "Ipsum esse est ullamco magna tempor anim laborum non officia deserunt veniam commodo. Aute minim incididunt ex commodo.",
-          category: "video games"
-        },
-        {
-          id: "58895985ae3b752b124e7663",
-          owner: "Barry",
+          _id: 'chris_id',
+          owner: 'Chris',
           status: true,
-          body: "Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.",
-          category: "homework"
+          body: 'UMM',
+          category: 'software develop'
+        },
+        {
+          _id: 'pat_id',
+          owner: 'Pat',
+          status: false,
+          body: 'IBM',
+          category: 'video games'
+        },
+        {
+          _id: 'jamie_id',
+          owner: 'Jamie',
+          status: true,
+          body: 'Frogs, Inc.',
+          category: 'video games'
         }
-      ].find(todo => todo.id === todoId))
+      ].find(todo => todo._id === todoId))
     };
 
     TestBed.configureTestingModule({
+      imports: [CustomModule],
       declarations: [TodoComponent],
       providers: [{provide: TodoListService, useValue: todoListServiceStub}]
     });
@@ -56,15 +56,16 @@ describe('Todo component', () => {
     });
   }));
 
-  it('can retrieve Barry by ID', () => {
-    todoComponent.setId('58895985ae3b752b124e7663');
+  it('can retrieve Pat by ID', () => {
+    todoComponent.setId('pat_id');
     expect(todoComponent.todo).toBeDefined();
-    expect(todoComponent.todo.owner).toBe('Barry');
-    expect(todoComponent.todo.category).toBe('homework');
+    expect(todoComponent.todo.owner).toBe('Pat');
+    expect(todoComponent.todo.category).toBe('video games');
   });
 
   it('returns undefined for Santa', () => {
     todoComponent.setId('Santa');
     expect(todoComponent.todo).not.toBeDefined();
   });
+
 });

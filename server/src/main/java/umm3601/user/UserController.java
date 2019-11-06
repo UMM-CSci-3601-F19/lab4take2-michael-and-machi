@@ -27,6 +27,7 @@ public class UserController {
    * @param database the database containing user data
    */
   public UserController(MongoDatabase database) {
+
     userCollection = database.getCollection("users");
   }
 

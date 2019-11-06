@@ -42,7 +42,7 @@ public class TodoRequestHandler {
       return todo;
     } else {
       res.status(404);
-      res.body("The requested user with id " + id + " was not found");
+      res.body("The requested todo with id " + id + " was not found");
       return "";
     }
   }
@@ -59,13 +59,13 @@ public class TodoRequestHandler {
    */
   public String getTodos(Request req, Response res) {
     res.type("application/json");
-    return todoController.getTodo(req.queryMap().toMap());
+    return todoController.getTodos(req.queryMap().toMap());
   }
 
 
   /**
    * Method called from Server when the 'api/todos/new' endpoint is received.
-   * Gets specified user info from request and calls addNewTodo helper method
+   * Gets specified todo info from request and calls addNewTodo helper method
    * to append that info to a document
    *
    * @param req the HTTP request
@@ -78,11 +78,11 @@ public class TodoRequestHandler {
     Document newTodo = Document.parse(req.body());
 
     String owner = newTodo.getString("owner");
-    int status = newTodo.getInteger("status");
+    boolean status = newTodo.getBoolean("status");
     String body = newTodo.getString("body");
     String category = newTodo.getString("category");
 
-    System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " body=" + body + " category=" + category + ']');
+    System.err.println("Adding new todo [owner=" + owner + ", status is" + status + " body=" + body + " category=" + category + ']');
     return todoController.addNewTodo(owner, status, body, category);
   }
 }

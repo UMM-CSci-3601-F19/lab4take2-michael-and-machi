@@ -1,11 +1,9 @@
-
 import {Component, OnInit} from '@angular/core';
 import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
 
 @Component({
-  selector: 'app-todo-component',
-  styleUrls: ['./todo.component.css'],
+  selector: 'todo-component',
   templateUrl: 'todo.component.html'
 })
 export class TodoComponent implements OnInit {
