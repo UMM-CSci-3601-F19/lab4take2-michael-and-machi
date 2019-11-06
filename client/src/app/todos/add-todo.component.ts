@@ -1,21 +1,19 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
-import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
-
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Todo} from './todo';
+import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import {OwnerValidator} from './owner.validator';
 
-
 @Component({
-  selector: 'app-add-todo-component',
-  templateUrl: 'add-todo.component.html'
+  selector: 'add-todo.component',
+  templateUrl: 'add-todo.component.html',
 })
 export class AddTodoComponent implements OnInit {
-  addTodoForm: FormGroup;
 
+  addTodoForm: FormGroup;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { todo: Todo}, private fb: FormBuilder) {
-}
+    @Inject(MAT_DIALOG_DATA) public data: { todo: Todo }, private fb: FormBuilder) {
+  }
 
   add_todo_validation_messages = {
     'owner': [
@@ -26,8 +24,10 @@ export class AddTodoComponent implements OnInit {
       {type: 'existingOwner', message: 'Owner has already been taken'}
     ],
 
-    'status': [
-      {type: 'pattern', message: 'Status is true or false'},
+    'Status': [
+      {type: 'pattern', message: 'Status must be a number'},
+      {type: 'min', message: 'Status must be at least 15'},
+      {type: 'max', message: 'Status may not be greater than 200'},
       {type: 'required', message: 'Status is required'}
     ],
 
@@ -37,29 +37,30 @@ export class AddTodoComponent implements OnInit {
   };
 
   createForms() {
+
     this.addTodoForm = this.fb.group({
+
       owner: new FormControl('owner', Validators.compose([
         OwnerValidator.validOwner,
-        Validators.minLength(2),
-        Validators.maxLength(25),
-        Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?'),
         Validators.required
       ])),
 
-      status: new FormControl('status', Validators.compose([
-        Validators.pattern('[true, false, True, False]+'),
+      status: new FormControl('status', Validators.compose ([
+        Validators.pattern('^[0-9]+[0-9]?'),
+        Validators.minLength(15),
+        Validators.maxLength(200),
         Validators.required
       ])),
 
       body: new FormControl('body'),
 
-      category: new FormControl('category', Validators.compose([
-        Validators.pattern('^[A-Za-z0-9\\s]+[A-Za-z0-9\\s]+$(\\.0-9+)?')
-      ]))
+      category: new FormControl('category')
     });
+
   }
 
   ngOnInit() {
     this.createForms();
   }
+
 }
